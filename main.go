@@ -16,14 +16,15 @@ func main() {
 		z3 := exec.Command("z3", "-smt2", "-in")
 
 		in, err := z3.StdinPipe()
-
 		out, err := z3.StdoutPipe()
 
 		if err != nil {
 			http.Error(w, err.Error(), 500)
 		}
 
-		z3.Start()
+		if err = z3.Start(); err != nil {
+			http.Error(w, err.Error(), 500)
+		}
 
 		// Read request body to stdin of z3 command
 		io.Copy(in, r.Body)
