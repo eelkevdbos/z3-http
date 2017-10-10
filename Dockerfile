@@ -2,9 +2,8 @@ FROM alpine:3.6
 
 MAINTAINER Eelke van den Bos <eelkevdbos@gmail.com>
 
-ARG Z3_VERSION=4.5.0
-
-COPY main /
+ARG Z3_VERSION="4.5.0"
+ENV Z3_ARGS="-smt2,-in"
 
 RUN apk add --no-cache g++ \
     && apk add --no-cache --virtual build-deps build-base ca-certificates python wget make \
@@ -15,6 +14,8 @@ RUN apk add --no-cache g++ \
     && rm -rf z3-z3-${Z3_VERSION} \
     && rm -rf z3-${Z3_VERSION}.tar.gz \
     && apk del build-deps
+
+COPY main /
 
 EXPOSE 80
 
