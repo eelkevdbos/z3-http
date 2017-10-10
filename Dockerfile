@@ -1,16 +1,22 @@
-FROM golang:1.9-stretch
+FROM alpine:3.6
 
 MAINTAINER Eelke van den Bos <eelkevdbos@gmail.com>
 
-WORKDIR /go/src/z3-http
+ARG Z3_VERSION="4.5.0"
+ENV Z3_ARGS="-smt2,-in"
 
-COPY . .
+RUN apk add --no-cache g++ \
+    && apk add --no-cache --virtual build-deps build-base ca-certificates python wget make \
+    && wget https://github.com/Z3Prover/z3/archive/z3-${Z3_VERSION}.tar.gz \
+    && tar -xvzf z3-${Z3_VERSION}.tar.gz \
+    && cd z3-z3-${Z3_VERSION} && python scripts/mk_make.py \
+    && cd build && make && make install && cd ../.. \
+    && rm -rf z3-z3-${Z3_VERSION} \
+    && rm -rf z3-${Z3_VERSION}.tar.gz \
+    && apk del build-deps
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends z3 \
-    && rm -rf /var/lib/apt/lists/* \
-    && go-wrapper download && go-wrapper install
+COPY main /
 
 EXPOSE 80
 
-CMD ["go-wrapper", "run"]
+CMD ["/main"]
