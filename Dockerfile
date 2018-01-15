@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM python:3.6-alpine
 
 MAINTAINER Eelke van den Bos <eelkevdbos@gmail.com>
 
@@ -15,8 +15,8 @@ RUN apk add --no-cache g++ \
     && rm -rf z3-${Z3_VERSION}.tar.gz \
     && apk del build-deps
 
-COPY main /
+COPY server.py server.py
 
 EXPOSE 80
 
-CMD ["/main"]
+CMD ["python", "server.py"]

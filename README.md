@@ -30,8 +30,3 @@ sat
 )
 ```
 
-## Configuration
-
-By default, the z3 command is called with the `-smt2` and `-in` argument. The docker image provides configuration of these arguments via an environment variable called `Z3_ARGS`. The environment variable should be a comma separated list of arguments that completely replaces the default arguments.
-
-Example: `docker run --rm -it -p "8001:80" -e Z3_ARGS=-smt,-in evdb/z3-http`
