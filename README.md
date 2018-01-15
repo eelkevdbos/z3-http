@@ -1,6 +1,6 @@
 # Z3-http
 
-Z3-http is a small http wrapper written around z3 in go.
+Z3-http is a small http wrapper written around z3 in python.
 
 ## Usage
 
